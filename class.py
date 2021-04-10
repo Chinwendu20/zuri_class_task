@@ -10,7 +10,11 @@ class Budget:
 
 	def withdraw(self, **kwargs):
 		for kwarg in kwargs:
-			setattr(self, kwarg, getattr(self,kwarg)-kwargs[kwarg])
+			if kwargs[kwarg] <= getattr(self, kwarg, 0):
+				setattr(self, kwarg, getattr(self,kwarg)-kwargs[kwarg])
+			else:
+				print('insufficient funds! Can\'t withraw funds from', kwarg)
+			
 
 	def compute_categories(self, *args):
 		for arg in args:
@@ -34,6 +38,8 @@ print(budget.entertainment)
 budget.compute_categories('food', 'clothing')
 budget.transfer_balance_among_categories('food', 'clothing', 30)
 print(budget.food)
+print(budget.clothing)
+budget.withdraw(food=20, clothing=30)
 print(budget.clothing)
 
 #Check
