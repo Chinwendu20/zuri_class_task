@@ -15,7 +15,7 @@ jobs:
         id: version
       - name: Obtaining response from server
         run: |
-          OUTPUT: echo $output
+          echo $output
         env:
           output: ${{ steps.version.outputs.OUTPUT }}
       - name: Failing build when response code is not 200
