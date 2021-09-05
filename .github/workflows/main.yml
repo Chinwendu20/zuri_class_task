@@ -1,0 +1,26 @@
+name: Continuous integration
+on:
+  push:
+    branches: [master]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Obtaining response from server
+        run: |
+           OUTPUT= echo "::set-output name=OUTPUT::$(curl -Is $ip:$port| head -n 1| cut -c 10-13)"
+        env:
+          ip = ${{ secrets.IP }}
+          port = ${{ secrets.PORT }}     
+        id: version
+      - name: Obtaining response from server
+        run: |
+          OUTPUT= echo $output
+        env:
+          output = ${{ steps.version.outputs.OUTPUT }}
+      - name: Failing build when response code is not 200
+        if: ${{ steps.version.outputs.OUTPUT }} != 200
+        uses: actions/github-script@v3
+        with:
+         script: |
+             core.setFailed('Your merge broke the code and so was not deployed onthe main port')
