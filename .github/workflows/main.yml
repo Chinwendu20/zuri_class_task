@@ -13,6 +13,7 @@ jobs:
           ip: ${{ secrets.IP }}
           port: ${{ secrets.PORT }}     
         id: version
+
       - name: Obtaining response from server
         run: |
           echo $output
